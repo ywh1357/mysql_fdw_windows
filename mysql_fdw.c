@@ -108,8 +108,10 @@ typedef struct MySQLFdwRelationInfo
 } MySQLFdwRelationInfo;
 
 
-extern Datum mysql_fdw_handler(PG_FUNCTION_ARGS);
+extern PGDLLEXPORT Datum mysql_fdw_handler(PG_FUNCTION_ARGS);
 extern PGDLLEXPORT void _PG_init(void);
+
+PGDLLEXPORT Datum mysql_fdw_version(PG_FUNCTION_ARGS);
 
 bool mysql_load_library(void);
 static void mysql_fdw_exit(int code, Datum arg);
@@ -214,7 +216,7 @@ mysql_load_library(void)
 	 */
 	mysql_dll_handle = dlopen(_MYSQL_LIBNAME, RTLD_LAZY);
 #else
-	mysql_dll_handle = dlopen(_MYSQL_LIBNAME, RTLD_LAZY | RTLD_DEEPBIND);
+	mysql_dll_handle = dlopen(_MYSQL_LIBNAME, 1);
 #endif
 	if(mysql_dll_handle == NULL)
 		return false;
@@ -340,6 +342,7 @@ mysql_fdw_exit(int code, Datum arg)
  * Foreign-data wrapper handler function: return
  * a struct with pointers to my callback routines.
  */
+PGDLLEXPORT
 Datum
 mysql_fdw_handler(PG_FUNCTION_ARGS)
 {

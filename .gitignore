@@ -2,3 +2,6 @@
 /results/
 *.o
 *.so
+.vs
+win32/x64
+mysql_fdw.vcxproj.user

@@ -110,6 +110,7 @@ static int bin_dec(int n);
 /*
  * convert_mysql_to_pg: Convert MySQL data into PostgreSQL's compatible data types
  */
+PGDLLEXPORT
 Datum
 mysql_convert_to_pg(Oid pgtyp, int pgtypmod, mysql_column *column)
 {
